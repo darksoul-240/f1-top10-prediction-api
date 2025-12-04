@@ -4,7 +4,7 @@ import joblib
 import pandas as pd
     
 app=FastAPI(title="F1 Top 10 Predictor", description="Predicts if an F1 driver will finish in the top 10 based on qualifying and recent performance metrics.", version="1.0.0")
-model=joblib.load(r'models\f1_top10_model.joblib')
+model=joblib.load('models/f1_top10_model.joblib')
 
 class RaceInput(BaseModel):
     grid:int
