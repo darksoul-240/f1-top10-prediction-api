@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 import joblib
 import pandas as pd
@@ -15,12 +16,9 @@ class RaceInput(BaseModel):
     driver_name:str="Unknown"
 
 @app.get("/")
-def home():
-    return{
-        "message":"F1 Top 10 Predictor API",
-        "docs":"/docs",
-        "health":"/health"
-    }
+def home():   
+    return RedirectResponse(url="/docs")
+
 @app.get("/health")
 def health():
     return {"status":"healthy"}
