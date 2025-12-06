@@ -18,3 +18,6 @@ Machine Learning API that predicts if an F1 driver will finish in the top 10 bas
 - scikit-learn 1.7.2
 - FastAPI + Uvicorn
 - Kaggle for training
+  
+## URL for API
+- https://f1-top10-predictor-api.onrender.com
