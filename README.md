@@ -20,4 +20,4 @@ Machine Learning API that predicts if an F1 driver will finish in the top 10 bas
 - Kaggle for training
   
 ## URL for API
-- https://f1-top10-predictor-api.onrender.com
+- https://f1-top10-predictor-api.onrender.com/predict
