@@ -17,7 +17,7 @@ class RaceInput(BaseModel):
 
 @app.get("/")
 def home():   
-    return RedirectResponse(url="/docs")
+    return RedirectResponse(url="/frontend/index.html")
 
 @app.get("/health")
 def health():
