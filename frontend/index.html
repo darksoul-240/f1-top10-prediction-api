@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>F1 top-10 predictor</title>
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="container">
+        <h1>F1 Top 10 predictor</h1>
+        <p class="subtitle">
+            Enter driver and recent perfomance stats to predict if they finish in the Top-10
+        </p>
+        <form id="predict-form">
+            <div class="form-row">
+                <label for="driver_name">Driver Name</label>
+                <input type="text" id="driver_name" name="driver_name" placeholder="Max Verstappen" required/>
+            </div>
+            <div class="form_row">
+                <label for="grid">Grid Position </label>
+                <input type="number" id="grid" name="grid" min="1" max="20" required/>
+            </div>
+            <div class="form-row">
+                <label for="driver_last3_avg">Driver Last 3 Avg Finish</label>
+                <input type="number" step="0.1" id="driver_last3_avg" name="driver_last3_avg" max="20" required/>
+            </div>
+            <div class="form-row">
+                <label for="constructor_last3_avg">Constructor Last 3 Avg Finish</label>
+                <input type="number" step="0.1" id="constructor_last3_avg" name="constructor_last3_avg" required/>
+            </div>
+            <div class="form-row">
+                <label for="driver_win_rate">Driver Win Rate (0 - 1)</label>
+                <input type="number" step="0.01" id="driver_win_rate" name="driver_win_rate" required>
+            </div>
+            <div class="form-row">
+                <label for="driver_total_races">Driver Total Races</label>
+                <input type="number" id="driver_total_races" name="driver_total_races" min="1" required>
+            </div>
+            <button type="submit" id="submit-btn">Predict</button>
+        </form>
+        <div id="result" class="result hidden">
+            <h2>Prediction</h2>
+            <p id="result-text"></p>
+            <p id="confidence-text"></p>
+            <p id="raw-json" class="raw-json"></p>
+        </div>
+        <div id="error" class="error-hidden"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
