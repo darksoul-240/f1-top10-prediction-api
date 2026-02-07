@@ -1,17 +1,85 @@
-.collapsible {
-  cursor: pointer;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin: 5px 0;
+/* Minimal reset */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #000000;
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.collapsible-content {
-  display: none;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin-top: 5px;
+.container {
+  width: 100%;
+  max-width: 820px;
+  background: #000000;
+  padding: 28px;
+  border-radius: 12px;
+  box-shadow: 18px 12px 15px rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255,255,255,0.7);
 }
 
-.collapsible.active .collapsible-content {
-  display: block;
+h1 { font-size: 1.6rem; margin-bottom: 6px; color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.9); }
+.subtitle { color: rgba(255,255,255,0.85); margin-bottom: 14px; font-weight: 500; }
+
+/* Form layout: two-column on wide screens, single column on small */
+#predict-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; align-items: center; }
+.form-row, .form_row { display: flex; flex-direction: column; align-items: stretch; }
+.form-row label, .form_row label { font-size: 0.92rem; color: rgba(255,255,255,0.95); margin-bottom: 6px; text-shadow: 0 0 6px rgba(255,255,255,0.14); }
+
+/* Inputs */
+#predict-form input, #predict-form select, #predict-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #222222;
+  background: #070707;
+  color: #ffffff;
+  outline: none;
+  transition: box-shadow .12s ease, transform .06s ease, border-color .12s ease;
 }
+
+#predict-form input::placeholder { color: rgba(255,255,255,0.45); }
+
+#predict-form input:focus, #predict-form select:focus {
+  box-shadow: 0 0 18px rgba(255,255,255,0.12);
+  transform: translateY(-1px);
+  border-color: rgba(255,255,255,0.28);
+}
+
+/* Make the submit button span full width of form */
+#predict-form button { grid-column: 1 / -1; padding: 12px 18px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.4); cursor: pointer; font-weight: 750; color: #ffffff; background: #000000; box-shadow: 0 8px 30px rgba(255,255,255,0.03); transition: transform .08s ease, filter .08s ease; }
+#predict-form button:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 12px 40px rgba(255,255,255,0.06); }
+#predict-form button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* Result + error */
+#result { margin-top: 18px; padding: 14px; border-radius: 8px; background: #070707; border: 1px solid #151515; color: #ffffff; }
+#result h2 { margin-bottom: 6px; color: #ffffff; text-shadow: 0 0 8px rgba(255,255,255,0.9); }
+#result p { margin: 6px 0; color: rgba(255,255,255,0.92); }
+#confidence-text { font-size: 0.92rem; color: rgba(255,255,255,0.86); }
+
+.hidden, .error-hidden { display: none !important; }
+
+#error { padding: 10px; border-radius: 8px; background: #2b0000; color: #ffd6d6; margin-top: 12px; border: 1px solid #3a0000; }
+
+.raw-json { max-height: 220px; overflow: auto; background: #070707; padding: 10px; border-radius: 6px; color: #ffffff; font-size: 0.85rem; border: 1px solid #1a1a1a; }
+
+/* Collapsible styling */
+.collapsible { cursor: pointer; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; background: #070707; border: 1px solid #151515; color: #ffffff; }
+.collapsible-content { display: none; padding: 10px; margin-top: 8px; border-radius: 8px; background: #070707; }
+.collapsible.active .collapsible-content { display: block; }
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  #predict-form { grid-template-columns: 1fr; }
+  .container { padding: 18px; }
+  h1 { font-size: 1.25rem; }
+}
+
+/* small accessibility tweaks */
+label { user-select: none; }
+
