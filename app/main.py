@@ -15,7 +15,7 @@ app = FastAPI(
 app.mount("/frontend", StaticFiles(directory="frontend"), name="frontend")
 
 # load model (ensure models/f1_top10_model.joblib exists in deployment)
-model = joblib.load("models/f1_top10_model.joblib")
+model = joblib.load("models/f1_top10_rfc_model_v2.joblib")
 
 
 class RaceInput(BaseModel):
