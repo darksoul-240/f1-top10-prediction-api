@@ -1,7 +1,6 @@
 __pycache__/
 *.pyc
 .env
-*.joblib
 venv/
 .vscode/
 mock.py
