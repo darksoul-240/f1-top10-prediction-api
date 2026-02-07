@@ -58,7 +58,7 @@ form.addEventListener('submit', async (event) => {
       ? `${data.driver} is predicted to FINISH IN THE TOP 10.`
       : `${data.driver} is predicted to FINISH OUTSIDE THE TOP 10.`;
 
-    confidenceText.textContent = `Confidence: ${confidence.toFixed(1)}%`;
+    confidenceText.textContent = `Confidence(To be in Top-10): ${confidence.toFixed(1)}%`;
 
     rawJson.textContent = `Raw response: ${JSON.stringify(data)}`;
 
