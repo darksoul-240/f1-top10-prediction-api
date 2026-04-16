@@ -1,55 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8"/>
-    <title>F1 top-10 predictor</title>
-    <link rel="stylesheet" href="style.css"/>
-    <link rel="icon" href="icons8-f1-car-48.png">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="Predict whether an F1 driver will finish in the top 10 using machine-learning analysis of qualifying position, recent performance, and career statistics." />
+    <meta name="theme-color" content="#0a0a0a" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="F1 Top-10 Predictor" />
+    <meta property="og:description" content="ML-powered Formula 1 race finishing position prediction" />
+    <meta property="og:type" content="website" />
+
+    <title>F1 Top-10 Predictor</title>
+
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="f1_favicon.png" />
 </head>
+
 <body>
-    <div class="container">
-        <h1>F1 Top 10 predictor</h1>
-        <p class="subtitle">
-            Enter driver and recent perfomance stats to predict if they finish in the Top-10
-        </p>
-        <form id="predict-form">
-            <div class="form-row">
-                <label for="driver_name">Driver Name</label>
-                <input type="text" id="driver_name" name="driver_name" placeholder="Max Verstappen" required/>
+    <div class="app-wrapper">
+        <main class="container">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-badge">
+                    <span class="dot"></span>
+                    Machine Learning Prediction
+                </div>
+                <h1>F1 Top-10 Predictor</h1>
+                <p class="subtitle">
+                    Enter driver &amp; recent performance stats to predict
+                    if they'll finish in the top 10.
+                </p>
+            </header>
+
+            <!-- Prediction Form -->
+            <form id="predict-form" autocomplete="off">
+                <div class="form-row">
+                    <label for="driver_name">Driver Name</label>
+                    <input type="text" id="driver_name" name="driver_name" placeholder="e.g. Max Verstappen" required
+                        title="Full name of the F1 driver" />
+                </div>
+
+                <div class="form-row">
+                    <label for="grid">Grid Position</label>
+                    <input type="number" id="grid" name="grid" min="1" max="20" placeholder="1 – 20" required
+                        title="Starting grid position (1-20)" />
+                </div>
+
+                <div class="form-row">
+                    <label for="driver_last3_avg">Driver Last 3 Avg Finish</label>
+                    <input type="number" step="0.1" id="driver_last3_avg" name="driver_last3_avg" max="20"
+                        placeholder="1.0 – 20.0" required title="Average finishing position in the last 3 races" />
+                </div>
+
+                <div class="form-row">
+                    <label for="constructor_last3_avg">Constructor Last 3 Avg Finish</label>
+                    <input type="number" step="0.1" id="constructor_last3_avg" name="constructor_last3_avg"
+                        placeholder="1.0 – 20.0" required
+                        title="Team's average finishing position in the last 3 races" />
+                </div>
+
+                <div class="form-row">
+                    <label for="driver_win_rate">Driver Win Rate</label>
+                    <input type="number" step="0.01" id="driver_win_rate" name="driver_win_rate"
+                        placeholder="0.00 – 1.00" required title="Career win rate as a decimal (0 to 1)" />
+                </div>
+
+                <div class="form-row">
+                    <label for="driver_total_races">Driver Total Races</label>
+                    <input type="number" id="driver_total_races" name="driver_total_races" min="1"
+                        placeholder="e.g. 150" required title="Total career race starts" />
+                </div>
+
+                <button type="submit" id="submit-btn" class="btn-predict">
+                    <span class="btn-text">Predict</span>
+                </button>
+            </form>
+
+            <!-- Result Card -->
+            <div id="result" class="result-card hidden" aria-live="polite">
+                <div class="result-header">
+                    <div class="result-icon" id="result-icon"></div>
+                    <h2>Prediction Result</h2>
+                </div>
+                <p id="result-text"></p>
+
+                <div class="confidence-wrapper">
+                    <div class="confidence-label">
+                        <span>Confidence</span>
+                        <span class="confidence-value" id="confidence-text">0%</span>
+                    </div>
+                    <div class="confidence-bar-track">
+                        <div class="confidence-bar-fill" id="confidence-bar"></div>
+                    </div>
+                </div>
+
+                <details class="raw-data">
+                    <summary>View raw response</summary>
+                    <pre id="raw-json" class="raw-json"></pre>
+                </details>
             </div>
-            <div class="form_row">
-                <label for="grid">Grid Position </label>
-                <input type="number" id="grid" name="grid" min="1" max="20" placeholder="1-20" required/>
+
+            <!-- Error Box -->
+            <div id="error" class="error-box hidden" role="alert">
+                <span class="error-icon">⚠</span>
+                <span id="error-text"></span>
             </div>
-            <div class="form-row">
-                <label for="driver_last3_avg">Driver Last 3 Avg Finish</label>
-                <input type="number" step="0.1" id="driver_last3_avg" name="driver_last3_avg" max="20" placeholder="1-20" required/>
-            </div>
-            <div class="form-row">
-                <label for="constructor_last3_avg">Constructor Last 3 Avg Finish</label>
-                <input type="number" step="0.1" id="constructor_last3_avg" name="constructor_last3_avg" placeholder="1-20" required/>
-            </div>
-            <div class="form-row">
-                <label for="driver_win_rate">Driver Win Rate</label>
-                <input type="number" step="0.01" id="driver_win_rate" name="driver_win_rate" placeholder="0-1" required>
-            </div>
-            <div class="form-row">
-                <label for="driver_total_races">Driver Total Races</label>
-                <input type="number" id="driver_total_races" name="driver_total_races" min="1" required>
-            </div>
-            <button type="submit" id="submit-btn">Predict</button>
-        </form>
-        <div id="result" class="result hidden">
-            <h2>Prediction</h2>
-            <p id="result-text"></p>
-            <p id="confidence-text"></p>
-            <details id="raw-data" class="raw-data">
-                <summary>Raw response (expand to view)</summary>
-                <pre id="raw-json" class="raw-json"></pre>
-            </details>
-        </div>
-        <div id="error" class="error-hidden"></div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            Built with FastAPI &amp; scikit-learn · F1 Top-10 Predictor
+        </footer>
     </div>
+
+    <!-- Confetti Canvas (for top-10 celebration) -->
+    <canvas id="confetti-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:999;"></canvas>
+
     <script src="script.js"></script>
 </body>
+
 </html>
